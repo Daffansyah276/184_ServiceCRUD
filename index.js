@@ -19,3 +19,16 @@ const pool = new Pool({
   password: "1010",
   port: 5432,
 });
+
+// GET ALL
+app.get("/biodata", (req, res) => {
+  pool
+    .query("SELECT * FROM biodata ORDER BY id ASC")
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: "Berhasil mengambil semua data biodata",
+        data: result.rows,
+      });
+    })
+});
