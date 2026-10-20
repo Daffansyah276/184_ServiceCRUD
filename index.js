@@ -31,4 +31,10 @@ app.get("/biodata", (req, res) => {
         data: result.rows,
       });
     })
+    .catch((err) => {
+      console.error(err);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal Server Error" });
+    });
 });
