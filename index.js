@@ -38,3 +38,37 @@ app.get("/biodata", (req, res) => {
         .json({ success: false, message: "Internal Server Error" });
     });
 });
+
+// POST (tambah data)
+app.post("/biodata", (req, res) => {
+  const { nama, nim, kelas } = req.body;
+
+  pool
+    .query(
+      "INSERT INTO biodata (nama, nim, kelas) VALUES ($1, $2, $3) RETURNING *",
+      [nama, nim, kelas],
+    )
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        message: "Data biodata berhasil ditambahkan",
+        data: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "Internal Server Error / NIM mungkin sudah terdaftar",
+        });
+    });
+});
+
+// PUT (update data)
+app.put("/biodata/:id", (req, res) => {
+  const { id } = req.params;
+  const { nama, nim, kelas } = req.body;
+
+});
